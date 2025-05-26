@@ -3,7 +3,6 @@ package org.ost.springboot.services;
 import org.ost.springboot.models.User;
 import org.ost.springboot.repositories.UsersRepository;
 import org.ost.springboot.utils.UserKafkaProducer;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +32,7 @@ public class UsersService {
 
     @Transactional //т.к. метод не только читает данные, указываем аннотация Transactional, кторая заменит аннотицию класса
     public void save(User user) {
-//        userKafkaProducer.addNewUser(user.getEmail());
+        userKafkaProducer.addNewUser(user.getEmail());
         usersRepository.save(user);
     }
 
@@ -48,7 +47,7 @@ public class UsersService {
     @Transactional
     public void delete(int id) {
         Optional<User> user = usersRepository.findById(id);
-//        user.ifPresent(deleteUser -> userKafkaProducer.deleteUser(deleteUser.getEmail()));
+        user.ifPresent(deleteUser -> userKafkaProducer.deleteUser(deleteUser.getEmail()));
         usersRepository.deleteById(id);
     }
 

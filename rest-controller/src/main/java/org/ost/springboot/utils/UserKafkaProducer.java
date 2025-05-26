@@ -19,12 +19,12 @@ public class UserKafkaProducer {
         //указываем класс который будет сериализировать ключ и данные
         proper.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         proper.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        return new KafkaProducer<String, String>(proper);
+        return new KafkaProducer<>(proper);
     }
 
     public void addNewUser(String email) {
         //использую 0 партицию в топике sandbox
-        try (var producer = addKafkaProducer();) {
+        try (var producer = addKafkaProducer()) {
             producer.send(new ProducerRecord<>("sandbox", 0,"create", email));
         }
     }

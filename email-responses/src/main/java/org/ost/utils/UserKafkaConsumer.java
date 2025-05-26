@@ -1,6 +1,7 @@
-package org.ost.springboot.utils;
+package org.ost.utils;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.ost.EmailCreator;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.stereotype.Service;

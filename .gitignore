@@ -1,6 +1,7 @@
 target/
 rest-controller/src/main/resources/sql-request.original
 rest-controller/src/main/resources/application.properties
+email-responses/src/main/resources/application.properties
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

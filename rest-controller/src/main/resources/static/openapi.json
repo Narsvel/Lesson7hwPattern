@@ -1,0 +1,379 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Users REST API",
+    "description": "Users REST API Docs",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Локальный сервер"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Успешно получен список пользователей",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "UserDTO",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "title": "Ид пользователя",
+                        "nullable": false,
+                        "example": 1
+                      },
+                      "name": {
+                        "type": "string",
+                        "title": "Имя пользователя",
+                        "nullable": false,
+                        "example": "Bob"
+                      },
+                      "email": {
+                        "type": "string",
+                        "title": "Email пользователя",
+                        "nullable": false,
+                        "example": "bob@mail.com"
+                      },
+                      "age": {
+                        "type": "integer",
+                        "title": "Возраст пользователя",
+                        "nullable": false,
+                        "example": 23
+                      }
+                    },
+                    "required": ["id", "name", "email", "age"]
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Список пользователей пустой."
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "title": "Имя пользователя",
+                    "nullable": false,
+                    "example": "Bob"
+                  },
+                  "email": {
+                    "type": "string",
+                    "title": "Email пользователя",
+                    "nullable": false,
+                    "example": "bob@mail.com"
+                  },
+                  "age": {
+                    "type": "integer",
+                    "title": "Возраст пользователя",
+                    "nullable": false,
+                    "example": 23
+                  }
+                },
+                "required": ["name", "email", "age"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Пользователей успешно сохранен.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "UserDTO",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "title": "Ид пользователя",
+                      "nullable": false,
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "title": "Имя пользователя",
+                      "nullable": false,
+                      "example": "Bob"
+                    },
+                    "email": {
+                      "type": "string",
+                      "title": "Email пользователя",
+                      "nullable": false,
+                      "example": "bob@mail.com"
+                    },
+                    "age": {
+                      "type": "integer",
+                      "title": "Возраст пользователя",
+                      "nullable": false,
+                      "example": 23
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "age"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ошибка в данных пользователя.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "User Error Response",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "title": "Сообщение об ошибке.",
+                      "example": "age - Age should be greater than 0."
+                    },
+                    "timestamp": {
+                      "type": "object",
+                      "title": "Время ошибки в секундах.",
+                      "example": 1747930377678
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Успешно получен пользователь.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "UserDTO",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "title": "Ид пользователя",
+                      "nullable": false,
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "title": "Имя пользователя",
+                      "nullable": false,
+                      "example": "Bob"
+                    },
+                    "email": {
+                      "type": "string",
+                      "title": "Email пользователя",
+                      "nullable": false,
+                      "example": "bob@mail.com"
+                    },
+                    "age": {
+                      "type": "integer",
+                      "title": "Возраст пользователя",
+                      "nullable": false,
+                      "example": 23
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Пользователя нет в базе данных.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "User Error Response",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "title": "Сообщение об ошибке.",
+                      "example": "User with this id wasn't found!"
+                    },
+                    "timestamp": {
+                      "type": "object",
+                      "title": "Время ошибки в секундах.",
+                      "example": 1747927745316
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "title": "Имя пользователя",
+                    "nullable": false,
+                    "example": "Bob"
+                  },
+                  "email": {
+                    "type": "string",
+                    "title": "Email пользователя",
+                    "nullable": false,
+                    "example": "bob@mail.com"
+                  },
+                  "age": {
+                    "type": "integer",
+                    "title": "Возраст пользователя",
+                    "nullable": false,
+                    "example": 23
+                  }
+                },
+                "required": ["name", "email", "age"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Данные пользователя успешно изменены.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "UserDTO",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "title": "Ид пользователя",
+                      "nullable": false,
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "title": "Имя пользователя",
+                      "nullable": false,
+                      "example": "Bob"
+                    },
+                    "email": {
+                      "type": "string",
+                      "title": "Email пользователя",
+                      "nullable": false,
+                      "example": "bob@mail.com"
+                    },
+                    "age": {
+                      "type": "integer",
+                      "title": "Возраст пользователя",
+                      "nullable": false,
+                      "example": 23
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Пользователя нет в базе данных.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "User Error Response",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "title": "Сообщение об ошибке.",
+                      "example": "User with this id wasn't found!"
+                    },
+                    "timestamp": {
+                      "type": "object",
+                      "title": "Время ошибки в секундах.",
+                      "example": 1747927745316
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ошибка в данных пользователя.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "User Error Response",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "title": "Сообщение об ошибке.",
+                      "example": "age - Age should be greater than 0."
+                    },
+                    "timestamp": {
+                      "type": "object",
+                      "title": "Время ошибки в секундах.",
+                      "example": 1747930377678
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Пользователь успешно удален."
+          },
+          "404": {
+            "description": "Пользователя нет в базе данных.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "User Error Response",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "title": "Сообщение об ошибке.",
+                      "example": "User with this id wasn't found!"
+                    },
+                    "timestamp": {
+                      "type": "object",
+                      "title": "Время ошибки в секундах.",
+                      "example": 1747927745316
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -4,10 +4,11 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Objects;
 
-public class UserDTO {
+public class UserDTO extends RepresentationModel<UserDTO> {
 
     private int id;
 

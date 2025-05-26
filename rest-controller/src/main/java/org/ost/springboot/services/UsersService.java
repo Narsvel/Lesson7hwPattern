@@ -3,6 +3,7 @@ package org.ost.springboot.services;
 import org.ost.springboot.models.User;
 import org.ost.springboot.repositories.UsersRepository;
 import org.ost.springboot.utils.UserKafkaProducer;
+import org.ost.springboot.utils.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,27 +28,31 @@ public class UsersService {
 
     public User findById(int id) {
         Optional<User> foundUser = usersRepository.findById(id);
-        return foundUser.orElse(null);
+        return foundUser.orElseThrow(UserNotFoundException::new);
     }
 
     @Transactional //т.к. метод не только читает данные, указываем аннотация Transactional, кторая заменит аннотицию класса
-    public void save(User user) {
+    public User save(User user) {
         userKafkaProducer.addNewUser(user.getEmail());
-        usersRepository.save(user);
+        return usersRepository.save(user);
     }
 
     @Transactional
-    public void update(int id, User updateUser) {
+    public User update(int id, User updateUser) {
         Optional<User> foundUser = usersRepository.findById(id);
+        if (foundUser.isEmpty())
+            throw new UserNotFoundException();
         foundUser.ifPresent(user -> updateUser.setCreateAt(user.getCreateAt()));
         updateUser.setId(id);
-        usersRepository.save(updateUser);
+        return usersRepository.save(updateUser);
     }
 
     @Transactional
     public void delete(int id) {
-        Optional<User> user = usersRepository.findById(id);
-        user.ifPresent(deleteUser -> userKafkaProducer.deleteUser(deleteUser.getEmail()));
+        Optional<User> deleteUser = usersRepository.findById(id);
+        if (deleteUser.isEmpty())
+            throw new UserNotFoundException();
+        deleteUser.ifPresent(user -> userKafkaProducer.deleteUser(user.getEmail()));
         usersRepository.deleteById(id);
     }
 

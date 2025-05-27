@@ -11,6 +11,7 @@
   <modules>
     <module>rest-controller</module>
     <module>email-responses</module>
+    <module>eureka-serv</module>
   </modules>
 
   <properties>

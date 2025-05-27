@@ -1,0 +1,17 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file:///C:/MyIntelliJIDEA/Lesson7hwPattern/config/cloud
+
+  #Eurika properties
+eureka:
+  client.service-url:
+    defaultZone: http://192.168.1.35:8761/eureka
+  instance:
+    prefer-ip-address: true

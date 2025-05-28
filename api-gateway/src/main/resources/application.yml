@@ -1,0 +1,23 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: all-users-route
+          uri: http://localhost:8080
+          predicates:
+            - Host=catalog.users.local.127.0.0.1.nip.io
+  application:
+    name: api-gateway
+server:
+  port: 8086
+  forward-headers-strategy: framework
+
+  #Eurika properties
+eureka:
+  client.service-url:
+    defaultZone: http://192.168.1.35:8761/eureka
+  instance:
+    prefer-ip-address: true

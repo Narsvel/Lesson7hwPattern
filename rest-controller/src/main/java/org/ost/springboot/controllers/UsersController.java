@@ -1,5 +1,6 @@
 package org.ost.springboot.controllers;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.validation.Valid;
 import org.ost.springboot.dto.UserDTO;
 import org.ost.springboot.services.UsersService;
@@ -33,7 +34,9 @@ public class UsersController {
     }
 
     @GetMapping()
-    public ResponseEntity<CollectionModel<UserDTO>> getUsers() {
+    @CircuitBreaker(name = "users", fallbackMethod = "fallbackUsers")
+    public ResponseEntity<CollectionModel<UserDTO>> getUsers() throws InterruptedException {
+
         List<UserDTO> users = mappingUserUtils.mapToDtoList(usersService.findAll());
 
         if (users.isEmpty()) {
@@ -127,6 +130,10 @@ public class UsersController {
 
             throw new UserNotCreatedException(errorMsg.toString());
         }
+    }
+
+    public String fallbackUsers(Throwable throwable) {
+        return "Server is overloaded.";
     }
 
 }

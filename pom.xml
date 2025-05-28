@@ -13,6 +13,7 @@
     <module>email-responses</module>
     <module>eureka-serv</module>
     <module>config-server</module>
+    <module>api-gateway</module>
   </modules>
 
   <properties>
